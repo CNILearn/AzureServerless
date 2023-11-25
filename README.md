@@ -1,12 +1,12 @@
 # Serverless architecture
 
-## This workshop is archived and no longer being maintained.  Content is read-only.
-
 Contoso is rapidly expanding its toll booth management business to operate in a much larger area. As this is not their primary business, which is online payment services, they are struggling with scaling up to meet the upcoming demand to extract license plate information from many new tollbooths, using photos of vehicles uploaded to cloud storage. Currently, they have a manual process where they send batches of images to a 3rd-party who manually transcodes the license plates to CSV files that they send back to Contoso to upload to their online processing system.
 
 They want to automate this process in a way that is cost-effective and scalable. They believe serverless is the best route for them but do not have the expertise to build the solution.
 
 November 2021
+
+Updates November 2023, CN innovation
 
 ## Target Audience
 
@@ -34,15 +34,15 @@ At the end of the hands-on-lab, you will have confidence in designing, developin
 
 ## Azure services and related products
 
-- [Azure Functions](https://docs.microsoft.com/azure/azure-functions/functions-overview)
-- [Azure Cognitive Services](https://docs.microsoft.com/azure/cognitive-services/what-are-cognitive-services)
-- [Azure Computer Vision](https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/overview)
-- [Azure Event Grid](https://docs.microsoft.com/azure/event-grid/overview)
-- [Azure Data Lake Storage Gen2](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction)
-- [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview)
-- [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction)
-- [Azure Logic Apps](https://docs.microsoft.com/azure/logic-apps/logic-apps-overview)
-- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
+- [Azure Functions](https://learn.microsoft.com/azure/azure-functions/functions-overview)
+- [Azure Cognitive Services](https://learn.microsoft.com/azure/cognitive-services/what-are-cognitive-services)
+- [Azure Computer Vision](https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/overview)
+- [Azure Event Grid](https://learn.microsoft.com/azure/event-grid/overview)
+- [Azure Data Lake Storage Gen2](https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-introduction)
+- [Application Insights](https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview)
+- [Azure Cosmos DB](https://learn.microsoft.com/azure/cosmos-db/introduction)
+- [Azure Logic Apps](https://learn.microsoft.com/azure/logic-apps/logic-apps-overview)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
 
 ## Azure solution
 
@@ -50,20 +50,5 @@ Cloud-Native Apps
 
 ## Related references, resources, and material
 
-- [Serverless Web Application Reference Architecture](https://docs.microsoft.com/azure/architecture/reference-architectures/serverless/web-app)
-- [Serverless event processing using Azure Functions Reference Architecture](https://docs.microsoft.com/azure/architecture/reference-architectures/serverless/event-processing)
-- [MCW](https://microsoftcloudworkshop.com/)
-
-## Help & Support
-
-We welcome feedback and comments from Microsoft SMEs & learning partners who deliver MCWs.
-
-**_Having trouble?_**
-
-- First, verify you have followed all written lab instructions (including the Before the Hands-on lab document).
-- Next, submit an issue with a detailed description of the problem.
-- Do not submit pull requests. Our content authors will make all changes and submit pull requests for approval.
-
-If you are planning to present a workshop, _review and test the materials early_! We recommend at least two weeks prior.
-
-### Please allow 5 - 10 business days for review and resolution of issues.
+- [Serverless Web Application Reference Architecture](https://learn.microsoft.com/en-us/azure/architecture/web-apps/serverless/architectures/web-app)
+- [Serverless event processing using Azure Functions Reference Architecture](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/serverless/event-processing)
