@@ -121,7 +121,7 @@ In this task, you run an Azure Resource Manager (ARM) template to create the han
 
 7. On the Review + create blade, ensure the _Validation passed_ message is displayed and then select **Create** to begin the custom deployment.
 
-   > **Note**: The deployment of the custom ARM template should finish in about 5 minutes.
+   > **Note**: The deployment of the custom ARM template should finish in about 2 minutes.
 
    ![On the Review + create blade for the custom deployment, the Validation passed message is highlighted, and the Create button is highlighted.](media/azure-custom-deployment-review-create.png "Review + create custom deployment")
 
