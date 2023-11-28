@@ -22,62 +22,63 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json.Linq;
 using TollBooth.Models;
 
-namespace TollBooth;
-
-public static class ProcessImage
+namespace TollBooth
 {
-    private static HttpClient _client;
-    private static string GetBlobNameFromUrl(string bloblUrl)
+    public static class ProcessImage
     {
-        var uri = new Uri(bloblUrl);
-        var cloudBlob = new CloudBlob(uri);
-        return cloudBlob.Name;
-    }
-
-    [FunctionName("ProcessImage")]
-    public static async Task Run([EventGridTrigger]EventGridEvent eventGridEvent,
-        [Blob(blobPath: "{data.url}", access: FileAccess.Read,
-            Connection = "dataLakeConnection")] Stream incomingPlate,
-        ILogger log)
-    {
-        var licensePlateText = string.Empty;
-        // Reuse the HttpClient across calls as much as possible so as not to exhaust all available sockets on the server on which it runs.
-        _client = _client ?? new HttpClient();
-
-        try
+        private static HttpClient _client;
+        private static string GetBlobNameFromUrl(string bloblUrl)
         {
-            if (incomingPlate != null)
+            var uri = new Uri(bloblUrl);
+            var cloudBlob = new CloudBlob(uri);
+            return cloudBlob.Name;
+        }
+
+        [FunctionName("ProcessImage")]
+        public static async Task Run([EventGridTrigger]EventGridEvent eventGridEvent,
+            [Blob(blobPath: "{data.url}", access: FileAccess.Read,
+                Connection = "dataLakeConnection")] Stream incomingPlate,
+            ILogger log)
+        {
+            var licensePlateText = string.Empty;
+            // Reuse the HttpClient across calls as much as possible so as not to exhaust all available sockets on the server on which it runs.
+            _client = _client ?? new HttpClient();
+
+            try
             {
-                var createdEvent = ((JObject)eventGridEvent.Data).ToObject<StorageBlobCreatedEventData>();
-                var name = GetBlobNameFromUrl(createdEvent.Url);
-
-                log.LogInformation($"Processing {name}");
-
-                byte[] licensePlateImage;
-                // Convert the incoming image stream to a byte array.
-                using (var br = new BinaryReader(incomingPlate))
+                if (incomingPlate != null)
                 {
-                    licensePlateImage = br.ReadBytes((int)incomingPlate.Length);
+                    var createdEvent = ((JObject)eventGridEvent.Data).ToObject<StorageBlobCreatedEventData>();
+                    var name = GetBlobNameFromUrl(createdEvent.Url);
+
+                    log.LogInformation($"Processing {name}");
+
+                    byte[] licensePlateImage;
+                    // Convert the incoming image stream to a byte array.
+                    using (var br = new BinaryReader(incomingPlate))
+                    {
+                        licensePlateImage = br.ReadBytes((int)incomingPlate.Length);
+                    }
+
+                    // TODO 1: Set the licensePlateText value by awaiting a new FindLicensePlateText.GetLicensePlate method.
+                    // COMPLETE: licensePlateText = await new.....
+
+                    // Send the details to Event Grid.
+                    await new SendToEventGrid(log, _client).SendLicensePlateData(new LicensePlateData()
+                    {
+                        FileName = name,
+                        LicensePlateText = licensePlateText,
+                        TimeStamp = DateTime.UtcNow
+                    });
                 }
-
-                // TODO 1: Set the licensePlateText value by awaiting a new FindLicensePlateText.GetLicensePlate method.
-                // COMPLETE: licensePlateText = await new.....
-
-                // Send the details to Event Grid.
-                await new SendToEventGrid(log, _client).SendLicensePlateData(new LicensePlateData()
-                {
-                    FileName = name,
-                    LicensePlateText = licensePlateText,
-                    TimeStamp = DateTime.UtcNow
-                });
             }
-        }
-        catch (Exception ex)
-        {
-            log.LogCritical(ex.Message);
-            throw;
-        }
+            catch (Exception ex)
+            {
+                log.LogCritical(ex.Message);
+                throw;
+            }
 
-        log.LogInformation($"Finished processing. Detected the following license plate: {licensePlateText}");
+            log.LogInformation($"Finished processing. Detected the following license plate: {licensePlateText}");
+        }
     }
 }
